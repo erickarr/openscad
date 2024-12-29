@@ -126,18 +126,13 @@ module embedded_m4_nut (length, recessed=0) {
         create_recessed_nut(length, recessed, bolt_diameter, nut_diameter, nut_height);
 }
 
-difference () {
-   union () {
-        // Group wrenches onto french cleat holder
-        french_cleat(20);
+module magnet_hole_teardrop () {
+    // Required:
+    //use <MCAD/teardrop.scad>
 
-        // TODO Y-shift
-        translate([0, -4.3, 0])
-            // TODO Is diameter the correct parameter??
-            wrench(10);
-            
-    }
+    translate([0,-2.75*25.4,-3/8/2*25.4-2])
+        rotate([180,90,90])
+        teardrop(radius=3+0.2, length=3/8*25.4, angle=90);
+}
 
-    translate([0,-1.25*25.4,-3/8/2*25.4-2])  
-        embedded_m4_nut(10, recessed=5); 
 }
