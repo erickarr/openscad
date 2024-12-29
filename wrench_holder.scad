@@ -37,12 +37,12 @@ module french_cleat (length) {
 
     // French cleat polygon
     p0 = [0,0];
-    p1 = [rabbet,0];
-    p2 = [rabbet,rabbet];
-    p3 = [ply,rabbet];
-    p4 = [ply,-cleat];
-    p5 = [ply+rabbet,-cleat];
-    p6 = [ply+rabbet, ply];
+    p1 = [rabbet-sixteenth,0];
+    p2 = [p1[0],rabbet];
+    p3 = [p2[0]+rabbet,rabbet];
+    p4 = [p3[0],-cleat];
+    p5 = [p4[0]+rabbet,-cleat];
+    p6 = [p5[0], ply];
     p7 = [0, ply];
     
     points = [
@@ -56,7 +56,6 @@ module french_cleat (length) {
         p7
     ];
 
-    // TODO Potentially want to center in Z-axis as well
     translate([length/2,-ply,-p6[0]]) {
         rotate([0,-90,0]) {
             linear_extrude(length) {
