@@ -57,33 +57,41 @@ module french_cleat (length) {
         p7
     ];
 
-    translate([length/2,-ply,-p6[0]]) {
-        rotate([0,-90,0]) {
-            linear_extrude(length) {
-                difference () {
-                    polygon(points);
+    difference () {
+        translate([length,-ply,-p6[0]]) {
+            rotate([0,-90,0]) {
+                linear_extrude(length) {
+                    difference () {
+                        polygon(points);
+                        
+                        chamfer_corners = [
+                            p0,
+                            p1,
+                            p4,
+                            p5,
+                            p6
+                        ];
                     
-                    chamfer_corners = [
-                        p0,
-                        p1,
-                        p4,
-                        p5,
-                        p6
-                    ];
-                
-                    // For each corner, apply a chamfer
-                    for(corner = chamfer_corners) {
-                        translate([corner[0], corner[1], 0])
-                            rotate([0,0,45])
-                            square(1.5, center=true);
+                        // For each corner, apply a chamfer
+                        for(corner = chamfer_corners) {
+                            translate([corner[0], corner[1], 0])
+                                rotate([0,0,45])
+                                square(1.5, center=true);
+                        }
                     }
                 }
             }
         }
+        
+        num_mount_holes = floor(length/50);
+        hole_spacing = length/num_mount_holes;
+            
+        // Mounting hole(s)
+        for (i = [1:num_mount_holes]) {
+            translate([i*hole_spacing - hole_spacing/2,-1.25*25.4,-3/8/2*25.4-1.5])  
+                embedded_m4_nut(10, recessed=5); 
+        }
     }
-    
-    // TODO Add mount holes for fasteners and M3/M4 nuts
-    // TODO Create a module that makes the holes
 }
 
 /**
