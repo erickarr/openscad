@@ -1,31 +1,32 @@
 //Source: https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/undersized_circular_objects
-module cylinder_outer(height,radius,fn){
-   fudge = 1/cos(180/fn);
-   cylinder(h=height,r=radius*fudge,$fn=fn,center=true);
-}
+function circumscribed_diameter(diameter, fn) = (diameter * 1/cos(180/fn));
 
-module wrench (diameter, is_metric=true) {
-    // TODO Make total length a parameter?
-    // TODO Take text as a parameter
-    height = 15;
-    
+module wrench (length, size, is_metric=true, size_txt=undef) {    
     // Convert diameter if imperial, 25.4mm == 1"
-    diameter_conv = (is_metric) ? diameter : (diameter * 25.4);
+    diameter_conv = (is_metric) ? size : (size * 25.4);
+    
+    // Circumscribed diameter
+    circum_diameter = circumscribed_diameter(diameter_conv, 6);
     
     difference () {
         // Create cylinder object with chamfer to hold wrench
         union () {
-            cylinder_outer(height=height, radius=diameter_conv/2,fn=6);
+            linear_extrude(length)
+                circle(d=circum_diameter,$fn=6);
             
-            translate([0,0,height/2])
-                cylinder(h=2, d1=diameter_conv, d2=diameter_conv*0.8, $fn=6);
-                //cylinder_outer(height=2, 
+            translate([0,0,length])
+                cylinder(h=2,
+                    d1=circum_diameter, 
+                    d2=circum_diameter*0.8, 
+                    $fn=6);
         }
         
+        custom_txt = is_undef(size_txt) ? str(size) : size_txt;
+        
         // Subtract text
-        translate([0,0,height/2])
+        translate([0,0,length+1])
             linear_extrude(2)
-            text(str(diameter), size=diameter_conv*0.4, halign="center", valign="center");
+            text(custom_txt, size=diameter_conv*0.4, halign="center", valign="center");
     }
 }
 
