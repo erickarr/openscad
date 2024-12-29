@@ -119,7 +119,7 @@ module create_recessed_nut (length, recessed=0, bolt_diameter, nut_diameter, nut
 module embedded_m4_nut (length, recessed=0) {
     bolt_diameter = 4 + 0.2;
     
-    nut_diameter = 7.8 + 0.1;
+    nut_diameter = 7.8 + 0.3;
     nut_height = 3 + 0.2;
     
     translate([0,0,-length])
