@@ -126,6 +126,9 @@ module embedded_m4_nut (length, recessed=0) {
         create_recessed_nut(length, recessed, bolt_diameter, nut_diameter, nut_height);
 }
 
+/**
+ * @brief Module for creating 6x mm magnet hole with a teardrop for 3D printing.
+ */
 module magnet_hole_teardrop () {
     // Required:
     //use <MCAD/teardrop.scad>
