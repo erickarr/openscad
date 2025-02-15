@@ -10,12 +10,14 @@ use <hardware.scad>
  * @brief Creates a french cleat base, with a 3/8" rabbet, designed to attach 
  * to 3/4" plywood.
  *
- * @param[in] length Length, in the x-axis of the french cleat.
+ * @param[in] width Width, in the x-axis of the french cleat.
+ * @param[in] (optional) height_in Height, supplied in inches, of the amount of cleat
+ * that overlaps with the wall mounted cleat. Enter a custom height if desired.
  */
-module french_cleat (length) {
+module french_cleat (width,height_in=3.5) {
     ply = 3/4*25.4;         // 3/4" plywood thickness
     rabbet = 3/8*25.4;      // Rabbet depth
-    cleat = 2.5*25.4;         // Cleat mininimum height
+    cleat = height_in*25.4;       // Cleat mininimum height
     sixteenth = 1/16*25.4;  // 1/16" for tolerance
 
     // French cleat polygon
@@ -40,9 +42,9 @@ module french_cleat (length) {
     ];
 
     difference () {
-        translate([length,-ply,-p6[0]]) {
+        translate([width,-ply,-p6[0]]) {
             rotate([0,-90,0]) {
-                linear_extrude(length) {
+                linear_extrude(width) {
                     difference () {
                         polygon(points);
                         
@@ -65,8 +67,8 @@ module french_cleat (length) {
             }
         }
         
-        num_mount_holes = floor(length/50);
-        hole_spacing = length/num_mount_holes;
+        num_mount_holes = floor(width/50);
+        hole_spacing = width/num_mount_holes;
             
         // Mounting hole(s)
         for (i = [1:num_mount_holes]) {
