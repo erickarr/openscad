@@ -1,36 +1,5 @@
-//Source: https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/undersized_circular_objects
-function circumscribed_diameter(diameter, fn) = (diameter * 1/cos(180/fn));
-
-module wrench (length, size, is_metric=true, size_txt=undef) {    
-    // Convert diameter if imperial, 25.4mm == 1"
-    diameter_conv = (is_metric) ? size : (size * 25.4);
-    
-    // Circumscribed diameter
-    circum_diameter = circumscribed_diameter(diameter_conv, 6);
-    
-    difference () {
-        // Create cylinder object with chamfer to hold wrench
-        union () {
-            linear_extrude(length)
-                circle(d=circum_diameter,$fn=6);
-            
-            translate([0,0,length])
-                cylinder(h=2,
-                    d1=circum_diameter, 
-                    d2=circum_diameter*0.8, 
-                    $fn=6);
-        }
-        
-        custom_txt = is_undef(size_txt) ? str(size) : size_txt;
-        
-        // Subtract text
-        translate([0,0,length+1])
-            linear_extrude(2)
-            text(custom_txt, size=diameter_conv*0.4, halign="center", valign="center");
-    }
-}
-
 use <lib/french_cleat.scad>
+use <lib/hardware.scad>
 
 // Wrench sizes
 wrenches = [8,9,10,11,12,13,14,15];
@@ -62,6 +31,6 @@ union () {
 
     for (i = [0:len(wrenches)-1]) {
         translate([x_offsets[i]+10, -wrenches[i]/2, -2])
-            wrench(length=wrenches[i]*1.5,size=wrenches[i]);
+            hex_chamfer(length=wrenches[i]*1.5,size=wrenches[i]);
     }
 }
