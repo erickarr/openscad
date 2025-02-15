@@ -68,7 +68,7 @@ function circumscribed_diameter(diameter, fn) = (diameter * 1/cos(180/fn));
  * 
  * Used to generate holders for wrenches.
  * @param[in] length Length of the extruded object.
- * @param[in] size Hex size, point-to-point.
+ * @param[in] size Hex size, face-to-face.
  * @param[in] size_tol_minus Tolerance to be removed from size in mm.
  * @param[in] in_metric=true Converts size from imperial if false.
  * @param[in] size_txt=undef Size of font on the end of the object.
