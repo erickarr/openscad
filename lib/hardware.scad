@@ -69,15 +69,19 @@ function circumscribed_diameter(diameter, fn) = (diameter * 1/cos(180/fn));
  * Used to generate holders for wrenches.
  * @param[in] length Length of the extruded object.
  * @param[in] size Hex size, point-to-point.
+ * @param[in] size_tol_minus Tolerance to be removed from size in mm.
  * @param[in] in_metric=true Converts size from imperial if false.
  * @param[in] size_txt=undef Size of font on the end of the object.
  */
-module hex_chamfer (length, size, is_metric=true, size_txt=undef) {    
+module hex_chamfer (length, size, size_tol_minus=0, is_metric=true, size_txt=undef) {    
     // Convert diameter if imperial, 25.4mm == 1"
     diameter_conv = (is_metric) ? size : (size * 25.4);
+
+    // Subtract the tolerance from size
+    diameter_conv_tol = diameter_conv - size_tol_minus;
     
     // Circumscribed diameter
-    circum_diameter = circumscribed_diameter(diameter_conv, 6);
+    circum_diameter = circumscribed_diameter(diameter_conv_tol, 6);
     
     difference () {
         // Create cylinder object with chamfer to hold wrench
