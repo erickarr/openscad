@@ -71,9 +71,11 @@ function circumscribed_diameter(diameter, fn) = (diameter * 1/cos(180/fn));
  * @param[in] size Hex size, face-to-face.
  * @param[in] size_tol_minus Tolerance to be removed from size in mm.
  * @param[in] in_metric=true Converts size from imperial if false.
- * @param[in] size_txt=undef Size of font on the end of the object.
+ * @param[in] size_txt=undef Override text to describe the size.
+ * @param[in] font_size_mult=0.4 Size multiplier for font.
  */
-module hex_chamfer (length, size, size_tol_minus=0, is_metric=true, size_txt=undef) {    
+module hex_chamfer (length, size, size_tol_minus=0, is_metric=true, 
+    size_txt=undef, font_size_mult=0.4) {    
     // Convert diameter if imperial, 25.4mm == 1"
     diameter_conv = (is_metric) ? size : (size * 25.4);
 
@@ -101,6 +103,7 @@ module hex_chamfer (length, size, size_tol_minus=0, is_metric=true, size_txt=und
         // Subtract text
         translate([0,0,length+1])
             linear_extrude(2)
-            text(custom_txt, size=diameter_conv*0.4, halign="center", valign="center");
+            text(custom_txt, size=diameter_conv*font_size_mult, 
+                halign="center", valign="center");
     }
 }
