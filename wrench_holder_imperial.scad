@@ -35,7 +35,7 @@ union () {
     french_cleat(cleat_width);
 
     for (i = [0:len(wrenches)-1]) {
-        translate([x_offsets[i]+5, -wrenches[i]/2, -2])
+        translate([x_offsets[i]+5, -wrenches[i]/2+0.25, -2])
             hex_chamfer(
                 length=wrenches[i]*1.3,
                 size=wrenches[i],
