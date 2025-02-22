@@ -1,6 +1,9 @@
 include <BOSL2/std.scad>
 
 // TODO Play with chamfer and rounded corners
+// TODO Cutout further at the top for the dials, cut it all out?
+// TODO Mounting holes in the back
+// TODO KVR Text
 
 /**
 * Controller dimensions, without tolerances.
@@ -28,6 +31,7 @@ module dt500_controller () {
         butt_height = cont_height;
         butt_depth = 1 * INCH;
 
+        // TODO Potentially update the shape of the buttons
         back (buttons_from_bottom) up(cont_depth)
             cube([butt_width, butt_height, butt_depth], center = true);
     }
@@ -36,7 +40,8 @@ module dt500_controller () {
 difference() {
     // Create the holder
     up(cont_depth/2)
-        cube([cont_width + holder_thickness*2, cont_height, cont_depth + holder_thickness*2], center=true);
+        cuboid([cont_width + holder_thickness*2, cont_height, cont_depth + holder_thickness*2],
+            rounding=4);
 
     // Subtract the controller
     back(holder_thickness)
