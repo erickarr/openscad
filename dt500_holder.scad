@@ -1,23 +1,41 @@
 include <BOSL2/std.scad>
 
-in_to_mm = 25.4;
+/**
+* Controller dimensions, without tolerances.
+*/
+cont_width = 2.5 * INCH;
+cont_height = 6 * INCH;
+cont_depth = 1 * INCH;
 
 /**
- * Controller dimensions, without tolerances.
+ * Holder dimensions, based off controller
  */
-cont_width = 2.5 * in_to_mm;
-cont_height = 6 * in_to_mm;
-cont_depth = 1 * in_to_mm;
+holder_thickness = 0.25 * INCH;
 
-up(cont_depth/2)
-    cube([cont_width, cont_height, cont_depth], center = true);
+module dt500_controller () {
+    union () {
+        up(cont_depth/2)
+            cube([cont_width, cont_height, cont_depth], center = true);
 
-/**
- * Buttons, on the face of the controller.
- */
-butt_width = 1.5 * in_to_mm;
-butt_height = 4 * in_to_mm;
-butt_depth = 0.5 * in_to_mm;
+        /**
+        * Buttons, on the face of the controller.
+        */
+        butt_width = 1.5 * INCH;
+        butt_height = 4 * INCH;
+        butt_depth = 1 * INCH;
 
-up(cont_depth)
-    cube([butt_width, butt_height, butt_depth], center = true);
+        up(cont_depth)
+            cube([butt_width, butt_height, butt_depth], center = true);
+    }
+}
+
+difference() {
+    // Create the holder
+    up(cont_depth/2)
+        cube([cont_width + holder_thickness*2, cont_height, cont_depth + holder_thickness*2], center=true);
+
+    // Subtract the controller
+    back(0)
+        dt500_controller();
+}
+
