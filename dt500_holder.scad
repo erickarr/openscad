@@ -1,11 +1,15 @@
 include <BOSL2/std.scad>
 
+// TODO Play with chamfer and rounded corners
+
 /**
 * Controller dimensions, without tolerances.
 */
 cont_width = 2.5 * INCH;
 cont_height = 6 * INCH;
 cont_depth = 1 * INCH;
+
+buttons_from_bottom = 1 * INCH;
 
 /**
  * Holder dimensions, based off controller
@@ -21,10 +25,10 @@ module dt500_controller () {
         * Buttons, on the face of the controller.
         */
         butt_width = 1.5 * INCH;
-        butt_height = 4 * INCH;
+        butt_height = cont_height;
         butt_depth = 1 * INCH;
 
-        up(cont_depth)
+        back (buttons_from_bottom) up(cont_depth)
             cube([butt_width, butt_height, butt_depth], center = true);
     }
 }
@@ -35,7 +39,7 @@ difference() {
         cube([cont_width + holder_thickness*2, cont_height, cont_depth + holder_thickness*2], center=true);
 
     // Subtract the controller
-    back(0)
+    back(holder_thickness)
         dt500_controller();
 }
 
