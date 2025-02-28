@@ -1,6 +1,7 @@
-// V0
 include <BOSL2/std.scad>
 include <BOSL2/screws.scad>
+
+version = 0;
 
 /**
 * Controller dimensions, without tolerances.
@@ -39,4 +40,6 @@ cuboid([cont_width + holder_thickness*2, holder_height, cont_depth + holder_thic
         // Mounting screw holes
         tag("remove") back(1*INCH) up(holder_thickness) position(BOTTOM) screw_hole("#8-32,1/2",head="flat",counterbore=0,anchor=TOP,$slop=0.1);
         tag("remove") fwd(1*INCH) up(holder_thickness) position(BOTTOM) screw_hole("#8-32,1/2",head="flat",counterbore=0,anchor=TOP,$slop=0.1);
+        // Version text
+        tag("remove") back(7/16*INCH) position(FRONT+BOTTOM) text3d(str("v",version), h=3, font="Times New Roman", size=10, center=true, orient=DOWN);
 }
