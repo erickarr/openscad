@@ -14,14 +14,14 @@ height = 21;
  * Flex Mini, with tolerances.
  */
 height_tol = 1.5;
-usw_dims = [width+3, depth, height+height_tol];
+usw_dims = [width, depth, height+height_tol];
 
 /**
  * Holder dimensions.
  */
 h_thickness = 2;
-h_width = 1 * width + 10*2;
-h_depth = 3/4 * depth;
+h_width = 0.95 * width;
+h_depth = 1 * depth + h_thickness*2;
 h_height = height + 2*h_thickness+height_tol;
 
 /**
@@ -35,7 +35,7 @@ ul = 25;
 module flex_mini() {
     union () {
         // Flex Mini body
-        cuboid(usw_dims, rounding=5);
+        cuboid(usw_dims, rounding=7);
         // Add a spot for the Ubiquiti logo ;)
         cuboid([ul,ul,height+50], rounding=5);
     }
@@ -59,17 +59,17 @@ diff () {
     // Holder dimensions
     cuboid([h_width, h_depth, h_height], chamfer=1) {
         // Add two squares in the top of the holder, for air movement
-        tag("remove") vent();
-        tag("remove") xflip() vent();
+        *tag("remove") vent();
+        *tag("remove") xflip() vent();
 
         // Remove the Flex Mini body and logo
-        tag("remove") fwd((depth-h_depth)/2+h_thickness) flex_mini();
+        #tag("remove") right((width-h_width)/2+h_thickness) flex_mini();
 
         // Mounting screw holes
         tag("remove") left(h_width*0.30) mount_hole();
         tag("remove") right(h_width*0.30) mount_hole();
 
         // Remove a hole for the USB
-        tag("remove") down(2.5) position(BACK) cuboid([16,10,15], rounding=1);
+        *tag("remove") down(2.5) position(BACK) cuboid([16,10,15], rounding=1);
     }
 }
