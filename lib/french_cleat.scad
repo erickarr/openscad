@@ -11,24 +11,29 @@ use <hardware.scad>
  * to 3/4" plywood.
  *
  * @param[in] width Width, in the x-axis of the french cleat.
- * @param[in] (optional) height_in Height, supplied in inches, of the amount of cleat
+ * @param[in] (optional) height_in Height of the cleat, specified in inches.
  * that overlaps with the wall mounted cleat. Enter a custom height if desired.
  */
 module french_cleat (width,height_in=3.5) {
-    ply = 3/4*25.4;         // 3/4" plywood thickness
-    rabbet = 3/8*25.4;      // Rabbet depth
-    cleat = height_in*25.4;       // Cleat mininimum height
-    sixteenth = 1/16*25.4;  // 1/16" for tolerance
+    ply = 3/4*25.4;                     // 3/4" plywood thickness
+    rabbet = 3/8*25.4;                  // Rabbet depth
+    cleat = height_in*25.4 - 2*rabbet;  // Cleat height
+    sixteenth = 1/16*25.4;              // 1/16" for tolerance
 
-    // French cleat polygon
+    /**
+     * French cleat polygon
+     * 
+     * Imagine a cross section of the cleat, with the long piece on the right.
+     * Points are drawn starting at the bottom left, working counter clockwise.
+     */
     p0 = [0,0];
     p1 = [rabbet-sixteenth,0];
     p2 = [p1[0],rabbet];
     p3 = [p2[0]+rabbet,rabbet];
     p4 = [p3[0],-cleat];
     p5 = [p4[0]+rabbet,-cleat];
-    p6 = [p5[0], ply];
-    p7 = [0, ply];
+    p6 = [p5[0],ply];
+    p7 = [0,ply];
     
     points = [
         p0,
