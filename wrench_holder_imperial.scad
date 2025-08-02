@@ -1,13 +1,11 @@
 use <lib/french_cleat.scad>
 use <lib/hardware.scad>
 
-WRENCH_TOLERANCE_MM = 0.5;
-
 // Wrench sizes
 wrenches_imp = [1/4,5/16,3/8,7/16,1/2,9/16,5/8,11/16];
 
 // Wrench sizes with tolerance
-wrenches = [for (w = wrenches_imp) (w * 25.4) - WRENCH_TOLERANCE_MM];
+wrenches = [for (w = wrenches_imp) w * 25.4];
 
 wrench_txt = ["1/4", "5/16", "3/8", "7/16", "1/2", "9/16", "5/8", "11/16"];
 
