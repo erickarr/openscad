@@ -11,13 +11,14 @@ use <hardware.scad>
  * to 3/4" plywood.
  *
  * @param[in] width Width, in the x-axis of the french cleat.
- * @param[in] (optional) height_in Height of the cleat, specified in inches.
+ * @param[in] (optional) height_in Height of the cleat, specified in inches
  * that overlaps with the wall mounted cleat. Enter a custom height if desired.
+ * Set to 3 7/8" by default to land in the middle of the cleat.
  */
-module french_cleat (width,height_in=3.5) {
+module french_cleat (width,height_in=3.875) {
     ply = 3/4*25.4;                     // 3/4" plywood thickness
     rabbet = 3/8*25.4;                  // Rabbet depth
-    cleat = height_in*25.4 - 2*rabbet;  // Cleat height
+    cleat = height_in*25.4 - ply;       // Cleat height (default 3 7/8")
     sixteenth = 1/16*25.4;              // 1/16" for tolerance
 
     /**
