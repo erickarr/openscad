@@ -1,13 +1,8 @@
 use <lib/french_cleat.scad>
 use <lib/hardware.scad>
 
-WRENCH_TOLERANCE_MM = 0.5;
-
 // Wrench sizes
-wrenches_mm = [8,9,10,11,12,13,14,15];
-
-// Wrench sizes with tolerance
-wrenches = [for (w = wrenches_mm) w - WRENCH_TOLERANCE_MM];
+wrenches = [8,9,10,11,12,13,14,15];
 
 // Half of each radius, plus a fudge factor
 //function calc_offset (a,b) = a/2 + b/2 + 10;
@@ -35,7 +30,10 @@ union () {
     french_cleat(cleat_width);
 
     for (i = [0:len(wrenches)-1]) {
-        translate([x_offsets[i]+10, -wrenches[i]/2, -2])
-            hex_chamfer(length=wrenches[i]*1.5,size=wrenches[i]);
+        translate([x_offsets[i]+10, -wrenches[i]/2+0.25, -2])
+            hex_chamfer(
+                length=wrenches[i]*1.5,
+                size=wrenches[i], 
+                size_tol_minus=0.5);
     }
 }
