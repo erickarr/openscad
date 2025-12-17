@@ -57,10 +57,23 @@ skid_faces = [
 
 vnf = [skid_points, skid_faces];
 
+/**
+ * Module for a cut out for a nut.
+ * @param d[in] diameter of the nut
+ * @param l[in] length of the cutout
+ * @param h[in] height of the cutout
+ */
+module create_nut_track (d,l,h,anchor=CENTER) {
+    cube([d,l,h],anchor=anchor) {
+        position(FRONT) cylinder(h,d=d,anchor=CENTER);
+        position(BACK) cylinder(h,d=d,anchor=CENTER);
+    };
+};
+
 // Main body for the skid
 diff () {
     vnf_polyhedron(vnf) {
-        #tag("remove") move([ns_half,0.5*INCH,0]) position(TOP) cube([nw,nl,nh],anchor=TOP);
-        #tag("remove") move([-ns_half,0.5*INCH,0]) position(TOP) cube([nw,nl,nh],anchor=TOP);
+        tag("remove") move([ns_half,0.5*INCH,0.01]) position(TOP) create_nut_track(nw,nl,nh,TOP);
+        tag("remove") move([-ns_half,0.5*INCH,0.01]) position(TOP) create_nut_track(nw,nl,nh,TOP);
     }
 };
