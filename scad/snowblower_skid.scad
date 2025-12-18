@@ -12,7 +12,7 @@ w = 2*INCH;
 // Chamfer from corners
 c = w - 5/8*INCH;
 // Height/thickness of skid
-h = 5/8*INCH;
+h = 3/4*INCH;
 
 // Nut track params
 nl = 1.5*INCH;
@@ -28,6 +28,9 @@ sh = 1*INCH; // Arbitrary height, tall enough to cutout
 ss = 52;
 ss_half = ss/2;
 
+/**
+ * Points and faces to create primary polyhedron for the skid.
+ */
 skid_points = [
     [c, w, 0],
     [w, c, 0],
@@ -86,5 +89,7 @@ diff () {
 
         tag("remove") move([-ss_half,0.5*INCH,0.01]) position(TOP) create_nut_track(nd,nl,nh,TOP);
         tag("remove") move([-ss_half,0.5*INCH,-0.01]) position(BOTTOM) create_nut_track(sd,sl,sh,BOTTOM);
+        
+        #tag("keep") fwd(10) position(TOP) cylinder(4,r1=10,r2=9);
     }
 };
