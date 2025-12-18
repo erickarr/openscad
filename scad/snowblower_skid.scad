@@ -1,5 +1,8 @@
 /**
  * Snowblower skid with wheel.
+
+ TODO 
+ Raised edge for bearing
  */
 include <BOSL2/std.scad>
 
@@ -16,10 +19,13 @@ h = 5/8*INCH;
 
 // Nut track params
 nl = 1.5*INCH;
-nw = 3/4*INCH;
+nd = 3/4*INCH;
 nh = h - 3/16*INCH;
 
-echo(c);
+// Stud params
+sl = nl - 0.5*INCH;
+sd = 8;
+sh = 1*INCH; // Arbitrary height, tall enough to cutout
 
 skid_points = [
     [c, w, 0],
@@ -73,7 +79,11 @@ module create_nut_track (d,l,h,anchor=CENTER) {
 // Main body for the skid
 diff () {
     vnf_polyhedron(vnf) {
-        tag("remove") move([ns_half,0.5*INCH,0.01]) position(TOP) create_nut_track(nw,nl,nh,TOP);
-        tag("remove") move([-ns_half,0.5*INCH,0.01]) position(TOP) create_nut_track(nw,nl,nh,TOP);
+        // Nut and stud
+        tag("remove") move([ns_half,0.5*INCH,0.01]) position(TOP) create_nut_track(nd,nl,nh,TOP);
+        tag("remove") move([ns_half,0.5*INCH,-0.01]) position(BOTTOM) create_nut_track(sd,sl,sh,BOTTOM);
+
+        tag("remove") move([-ns_half,0.5*INCH,0.01]) position(TOP) create_nut_track(nd,nl,nh,TOP);
+        tag("remove") move([-ns_half,0.5*INCH,-0.01]) position(BOTTOM) create_nut_track(sd,sl,sh,BOTTOM);
     }
 };
