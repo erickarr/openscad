@@ -6,26 +6,27 @@
  */
 include <BOSL2/std.scad>
 
-// Nut spacing on snowblower is 2-1/8"
-ns = 2.125*INCH;
-ns_half = ns/2;
 
-// Width
+// Width of skid
 w = 2*INCH;
-// Chamfer
+// Chamfer from corners
 c = w - 5/8*INCH;
-// Height
+// Height/thickness of skid
 h = 5/8*INCH;
 
 // Nut track params
 nl = 1.5*INCH;
-nd = 3/4*INCH;
+nd = 17.17 + 1.5;
 nh = h - 3/16*INCH;
 
 // Stud params
-sl = nl - 0.5*INCH;
-sd = 8;
+sl = nl;//- 0.5*nd;
+sd = 7.85 + 1;
 sh = 1*INCH; // Arbitrary height, tall enough to cutout
+
+// Stud spacing on snowblower
+ss = 52;
+ss_half = ss/2;
 
 skid_points = [
     [c, w, 0],
@@ -80,10 +81,10 @@ module create_nut_track (d,l,h,anchor=CENTER) {
 diff () {
     vnf_polyhedron(vnf) {
         // Nut and stud
-        tag("remove") move([ns_half,0.5*INCH,0.01]) position(TOP) create_nut_track(nd,nl,nh,TOP);
-        tag("remove") move([ns_half,0.5*INCH,-0.01]) position(BOTTOM) create_nut_track(sd,sl,sh,BOTTOM);
+        tag("remove") move([ss_half,0.5*INCH,0.01]) position(TOP) create_nut_track(nd,nl,nh,TOP);
+        tag("remove") move([ss_half,0.5*INCH,-0.01]) position(BOTTOM) create_nut_track(sd,sl,sh,BOTTOM);
 
-        tag("remove") move([-ns_half,0.5*INCH,0.01]) position(TOP) create_nut_track(nd,nl,nh,TOP);
-        tag("remove") move([-ns_half,0.5*INCH,-0.01]) position(BOTTOM) create_nut_track(sd,sl,sh,BOTTOM);
+        tag("remove") move([-ss_half,0.5*INCH,0.01]) position(TOP) create_nut_track(nd,nl,nh,TOP);
+        tag("remove") move([-ss_half,0.5*INCH,-0.01]) position(BOTTOM) create_nut_track(sd,sl,sh,BOTTOM);
     }
 };
