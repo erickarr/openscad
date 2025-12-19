@@ -1,32 +1,33 @@
 /**
  * Snowblower skid with wheel.
-
- TODO 
- Raised edge for bearing
  */
 include <BOSL2/std.scad>
-
+include <BOSL2/screws.scad>
 
 // Width of skid
-w = 2*INCH;
+w = 1.5*INCH;
 // Chamfer from corners
 c = w - 5/8*INCH;
 // Height/thickness of skid
 h = 3/4*INCH;
 
 // Nut track params
-nl = 1.5*INCH;
+nl = 1*INCH;
 nd = 17.17 + 1.5;
 nh = h - 3/16*INCH;
 
 // Stud params
-sl = nl;//- 0.5*nd;
+sl = nl;
 sd = 7.85 + 1;
 sh = 1*INCH; // Arbitrary height, tall enough to cutout
 
 // Stud spacing on snowblower
 ss = 52;
 ss_half = ss/2;
+
+// Wheel offset
+wo = 0.5*INCH;
+wd = 2*(w - wo) + 5;
 
 /**
  * Points and faces to create primary polyhedron for the skid.
@@ -84,12 +85,19 @@ module create_nut_track (d,l,h,anchor=CENTER) {
 diff () {
     vnf_polyhedron(vnf) {
         // Nut and stud
-        tag("remove") move([ss_half,0.5*INCH,0.01]) position(TOP) create_nut_track(nd,nl,nh,TOP);
-        tag("remove") move([ss_half,0.5*INCH,-0.01]) position(BOTTOM) create_nut_track(sd,sl,sh,BOTTOM);
+        tag("remove") move([ss_half,0*INCH,0.01]) position(TOP) create_nut_track(nd,nl,nh,TOP);
+        tag("remove") move([ss_half,0*INCH,-0.01]) position(BOTTOM) create_nut_track(sd,sl,sh,BOTTOM);
 
-        tag("remove") move([-ss_half,0.5*INCH,0.01]) position(TOP) create_nut_track(nd,nl,nh,TOP);
-        tag("remove") move([-ss_half,0.5*INCH,-0.01]) position(BOTTOM) create_nut_track(sd,sl,sh,BOTTOM);
+        tag("remove") move([-ss_half,0*INCH,0.01]) position(TOP) create_nut_track(nd,nl,nh,TOP);
+        tag("remove") move([-ss_half,0*INCH,-0.01]) position(BOTTOM) create_nut_track(sd,sl,sh,BOTTOM);
         
-        #tag("keep") fwd(10) position(TOP) cylinder(4,r1=10,r2=9);
+        // Wheel standoff
+        fwd(wo) position(TOP) cylinder(4,r1=10,r2=9);
+
+        // Wheel stud
+        tag("remove") move([0,-wo,-0.01]) screw("1/4-20,1.5",head="hex",head_undersize=-0.5,shaft_undersize=-1,thread_len=10,anchor=TOP,orient=DOWN);
+
+        // Wheel
+        #move([0,-wo,50]) cyl(l=3/4*INCH,d=wd,rounding=6);
     }
 };
