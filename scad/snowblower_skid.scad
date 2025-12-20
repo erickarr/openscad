@@ -4,6 +4,10 @@
 include <BOSL2/std.scad>
 include <BOSL2/screws.scad>
 
+ASM = "full"; // "full", "skid", "wheel"
+
+$fn = 50;
+
 // Width of skid
 w = 1.5*INCH;
 // Chamfer from corners
@@ -19,7 +23,7 @@ nh = h - 3/16*INCH;
 // Stud params
 sl = nl;
 sd = 7.85 + 1;
-sh = 1*INCH; // Arbitrary height, tall enough to cutout
+sh = 0.5*INCH;
 
 // Stud spacing on snowblower
 ss = 52;
@@ -28,6 +32,7 @@ ss_half = ss/2;
 // Wheel offset
 wo = 0.5*INCH;
 wd = 2*(w - wo) + 5;
+wh = 3/4*INCH;
 
 /**
  * Points and faces to create primary polyhedron for the skid.
@@ -81,23 +86,48 @@ module create_nut_track (d,l,h,anchor=CENTER) {
     };
 };
 
-// Main body for the skid
-diff () {
-    vnf_polyhedron(vnf) {
-        // Nut and stud
-        tag("remove") move([ss_half,0*INCH,0.01]) position(TOP) create_nut_track(nd,nl,nh,TOP);
-        tag("remove") move([ss_half,0*INCH,-0.01]) position(BOTTOM) create_nut_track(sd,sl,sh,BOTTOM);
+module wheel () {
+    // bearing specs
+    bd = 22.05+0.15; // Add circle tolerance
+    bh = 7;
 
-        tag("remove") move([-ss_half,0*INCH,0.01]) position(TOP) create_nut_track(nd,nl,nh,TOP);
-        tag("remove") move([-ss_half,0*INCH,-0.01]) position(BOTTOM) create_nut_track(sd,sl,sh,BOTTOM);
-        
-        // Wheel standoff
-        fwd(wo) position(TOP) cylinder(4,r1=10,r2=9);
+    // washer specs
+    washerd = 18.59+0.2;
+    washerh = 4;
 
-        // Wheel stud
-        tag("remove") move([0,-wo,-0.01]) screw("1/4-20,1.5",head="hex",head_undersize=-0.5,shaft_undersize=-1,thread_len=10,anchor=TOP,orient=DOWN);
-
+    tag_scope()
+    diff () {
         // Wheel
-        #move([0,-wo,50]) cyl(l=3/4*INCH,d=wd,rounding=6);
-    }
+        cyl(l=wh,d=wd,rounding=6,anchor=BOTTOM) {
+            // Bearing cutout
+            tag("remove") down(0.01) position(BOTTOM) cyl(h=bh,d=bd,anchor=BOTTOM);
+            // Washer cutout
+            tag("remove") up(0.01) position(TOP) cyl(h=washerh,d=washerd,anchor=TOP);
+            // Bolt cutout
+            tag("remove") cyl(h=wh+1,d=6.5);
+        };
+    };
+};
+
+if (ASM == "full") {
+    diff () {
+        vnf_polyhedron(vnf) {
+            // Nut and stud
+            tag("remove") move([ss_half,0*INCH,0.01]) position(TOP) create_nut_track(nd,nl,nh,TOP);
+            tag("remove") move([ss_half,0*INCH,-0.01]) position(BOTTOM) create_nut_track(sd,sl,sh,BOTTOM);
+
+            tag("remove") move([-ss_half,0*INCH,0.01]) position(TOP) create_nut_track(nd,nl,nh,TOP);
+            tag("remove") move([-ss_half,0*INCH,-0.01]) position(BOTTOM) create_nut_track(sd,sl,sh,BOTTOM);
+            
+            // Wheel and standoff
+            fwd(wo) position(TOP) cylinder(4,r1=10,r2=9) position(TOP) wheel();
+            
+            // Wheel stud
+            tag("remove") move([0,-wo,-0.01]) screw("1/4-20,2",head="hex",head_undersize=-0.5,shaft_undersize=-0.5,thread_len=10,anchor=TOP,orient=DOWN);
+        };
+    };
+};
+
+if (ASM == "wheel") {
+    wheel();
 };
