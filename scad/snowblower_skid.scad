@@ -4,7 +4,7 @@
 include <BOSL2/std.scad>
 include <BOSL2/screws.scad>
 
-ASM = "full"; // "full", "skid", "wheel"
+ASM = "all"; // "all", "skid", "wheel", "bushing"
 
 $fn = 50;
 
@@ -29,7 +29,7 @@ sh = 0.5*INCH;
 ss = 52;
 ss_half = ss/2;
 
-// Wheel offset
+// Wheel params
 wo = 0.5*INCH;
 wd = 2*(w - wo) + 5;
 wh = 3/4*INCH;
@@ -93,7 +93,7 @@ module wheel () {
 
     // washer specs
     washerd = 18.59+0.2;
-    washerh = 4;
+    washerh = 3;
 
     tag_scope()
     diff () {
@@ -109,7 +109,24 @@ module wheel () {
     };
 };
 
-if (ASM == "full") {
+/**
+ * Fills space between bolt and bearing
+ */
+module bushing() {
+    // Bearing ID - 8.03
+    // Bolt OD - 6.22
+    bushh = 7;
+    bushod = 8.03;
+    bushid = 6.22 + 0.1;
+
+    diff () {
+        cyl(h=bushh,d=bushod) {
+            tag("remove") cyl(h=bushh,d=bushid);
+        };
+    };
+};
+
+if (ASM == "all") {
     diff () {
         vnf_polyhedron(vnf) {
             // Nut and stud
@@ -120,7 +137,7 @@ if (ASM == "full") {
             tag("remove") move([-ss_half,0*INCH,-0.01]) position(BOTTOM) create_nut_track(sd,sl,sh,BOTTOM);
             
             // Wheel and standoff
-            fwd(wo) position(TOP) cylinder(4,r1=10,r2=9) position(TOP) wheel();
+            fwd(wo) position(TOP) cylinder(h=3,r1=12,r2=10.5);// position(TOP) wheel();
             
             // Wheel stud
             tag("remove") move([0,-wo,-0.01]) screw("1/4-20,2",head="hex",head_undersize=-0.5,shaft_undersize=-0.5,thread_len=10,anchor=TOP,orient=DOWN);
@@ -129,5 +146,11 @@ if (ASM == "full") {
 };
 
 if (ASM == "wheel") {
-    wheel();
+    $fn = 80;
+    zflip() wheel();
+};
+
+if (ASM == "bushing") {
+    $fn = 80;
+    bushing();
 };
