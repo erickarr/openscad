@@ -140,7 +140,9 @@ if (ASM == "all") {
             fwd(wo) position(TOP) cylinder(h=3,r1=12,r2=10.5);// position(TOP) wheel();
             
             // Wheel stud
-            tag("remove") move([0,-wo,-0.01]) screw("1/4-20,2",head="hex",head_undersize=-0.5,shaft_undersize=-0.5,thread_len=10,anchor=TOP,orient=DOWN);
+            tag("remove") move([0,-wo,5]) screw("1/4-20,2",head="hex",head_undersize=-0.5,shaft_undersize=-0.5,thread_len=10,anchor=TOP,orient=DOWN);
+            // Recess for bolt
+            #tag("remove") move([0,-wo,-0.01]) cyl(h=5+0.02,d=15,anchor=BOTTOM);
         };
     };
 };
