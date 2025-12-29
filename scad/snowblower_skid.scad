@@ -115,8 +115,8 @@ module wheel () {
 module bushing() {
     // Bearing ID - 8.03
     // Bolt OD - 6.22
-    bushh = 7;
-    bushod = 8.03;
+    bushh = 7.2;
+    bushod = 8.07 + 0.2;
     bushid = 6.22 + 0.1;
 
     diff () {
