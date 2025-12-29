@@ -104,7 +104,7 @@ module wheel () {
             // Washer cutout
             tag("remove") up(0.01) position(TOP) cyl(h=washerh,d=washerd,anchor=TOP);
             // Bolt cutout
-            tag("remove") cyl(h=wh+1,d=6.5);
+            tag("remove") cyl(h=wh+1,d=6.25+0.35);
         };
     };
 };
@@ -137,12 +137,13 @@ if (ASM == "all") {
             tag("remove") move([-ss_half,0*INCH,-0.01]) position(BOTTOM) create_nut_track(sd,sl,sh,BOTTOM);
             
             // Wheel and standoff
-            fwd(wo) position(TOP) cylinder(h=3,r1=12,r2=10.5);// position(TOP) wheel();
+            // TODO use children()
+            fwd(wo) position(TOP) cylinder(h=3,d1=12,d2=10.8);// position(TOP) wheel();
             
             // Wheel stud
-            tag("remove") move([0,-wo,5]) screw("1/4-20,2",head="hex",head_undersize=-0.5,shaft_undersize=-0.5,thread_len=10,anchor=TOP,orient=DOWN);
-            // Recess for bolt
-            #tag("remove") move([0,-wo,-0.01]) cyl(h=5+0.02,d=15,anchor=BOTTOM);
+            #tag("remove") move([0,-wo,3]) screw("1/4-20,2",head="hex",head_undersize=-0.4,shaft_undersize=-0.3,thread_len=10,anchor=TOP,orient=DOWN);
+            // Recess for bolt head
+            tag("remove") move([0,-wo,-0.01]) cyl(h=3+0.02,d=15,anchor=BOTTOM);
         };
     };
 };
