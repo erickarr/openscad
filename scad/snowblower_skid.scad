@@ -138,7 +138,7 @@ if (ASM == "all") {
             
             // Wheel and standoff
             // TODO use children()
-            fwd(wo) position(TOP) cylinder(h=3,d1=12,d2=10.8);// position(TOP) wheel();
+            fwd(wo) position(TOP) cylinder(h=3,d1=13,d2=11.5);// position(TOP) wheel();
             
             // Wheel stud
             #tag("remove") move([0,-wo,3]) screw("1/4-20,2",head="hex",head_undersize=-0.4,shaft_undersize=-0.3,thread_len=10,anchor=TOP,orient=DOWN);
