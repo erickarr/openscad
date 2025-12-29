@@ -10,8 +10,6 @@ sbs_file := snowblower_skid.scad
 stl_dir = ../stl
 sbs_stl_files := $(addprefix  $(stl_dir)/, snowblower_skid_bushing.stl snowblower_skid_wheel.stl snowblower_skid.stl)
 
-$(info $(sbs_stl_files))
-
 # Default target
 all: sbs
 
