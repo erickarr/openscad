@@ -8,7 +8,7 @@ sbs_file := snowblower_skid.scad
 
 # Corresponding .stl files
 stl_dir = ../stl
-sbs_stl_files := $(addprefix  $(stl_dir)/, snowblower_skid_bushing.stl snowblower_skid_wheel.stl snowblower_skid_skid.stl)
+sbs_stl_files := $(addprefix  $(stl_dir)/, snowblower_skid_bushing.stl snowblower_skid_wheel.stl snowblower_skid.stl)
 
 $(info $(sbs_stl_files))
 
@@ -21,7 +21,7 @@ sbs: $(sbs_stl_files)
 $(stl_dir)/%.stl: %.scad
 	$(oscad) -o $@ $<
 
-$(stl_dir)/snowblower_skid_skid.stl: $(sbs_file)
+$(stl_dir)/snowblower_skid.stl: $(sbs_file)
 	$(oscad) -D 'ASM="all"' -o $@ $<
 
 $(stl_dir)/snowblower_skid_wheel.stl: $(sbs_file)
