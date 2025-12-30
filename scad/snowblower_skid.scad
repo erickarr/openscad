@@ -4,7 +4,8 @@
 include <BOSL2/std.scad>
 include <BOSL2/screws.scad>
 
-ASM = "all"; // "all", "skid", "wheel", "bushing"
+
+WHEEL_BEARING_ENABLE = false; // true or false
 
 $fn = 50;
 
