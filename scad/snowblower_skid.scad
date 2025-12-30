@@ -32,7 +32,7 @@ ss = 52;
 ss_half = ss/2;
 
 // Wheel params
-wo = 0.5*INCH;
+wo = 0.55*INCH;
 wd = 2*(w - wo) + 5;
 wh = 3/4*INCH;
 
@@ -143,7 +143,7 @@ if (ASM == "all") {
             // Wheel and standoff
             // TODO use children(), and put these codes into a module
             // d1=13, d2=11.5 for standoff to land on the inner race of a 608RS bearing
-            fwd(wo) position(TOP) cylinder(h=3,d1=24,d2=22);// position(TOP) wheel();
+            fwd(wo) position(TOP) cylinder(h=2,d1=24,d2=22);// position(TOP) wheel();
             
             // Wheel stud
             tag("remove") move([0,-wo,3]) screw("1/4-20,2",head="hex",head_undersize=-0.4,shaft_undersize=-0.3,thread_len=10,anchor=TOP,orient=DOWN);
