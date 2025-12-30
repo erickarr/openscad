@@ -94,18 +94,20 @@ module wheel () {
 
     // washer specs
     washerd = 18.59+0.2;
-    washerh = 3;
+    washerh = 2.5;
 
     tag_scope()
     diff () {
         // Wheel
         cyl(l=wh,d=wd,rounding=6,anchor=BOTTOM) {
+            if (WHEEL_BEARING_ENABLE) {
             // Bearing cutout
             tag("remove") down(0.01) position(BOTTOM) cyl(h=bh,d=bd,anchor=BOTTOM);
+            }
             // Washer cutout
             tag("remove") up(0.01) position(TOP) cyl(h=washerh,d=washerd,anchor=TOP);
             // Bolt cutout
-            tag("remove") cyl(h=wh+1,d=6.25+0.35);
+            #tag("remove") position(BOTTOM) cyl(h=wh-washerh,d=6.25+0.35,chamfer2=-1,anchor=BOTTOM,extra=0.1);
         };
     };
 };
@@ -151,7 +153,7 @@ if (ASM == "all") {
 
 if (ASM == "wheel") {
     $fn = 80;
-    zflip() wheel();
+    wheel();
 };
 
 if (ASM == "bushing") {
