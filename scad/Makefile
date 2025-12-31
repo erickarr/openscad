@@ -20,7 +20,7 @@ $(stl_dir)/%.stl: %.scad
 	$(oscad) -o $@ $<
 
 $(stl_dir)/snowblower_skid.stl: $(sbs_file)
-	$(oscad) -D 'ASM="all"' -o $@ $<
+	$(oscad) -D 'ASM="skid"' -o $@ $<
 
 $(stl_dir)/snowblower_skid_wheel.stl: $(sbs_file)
 	$(oscad) -D 'ASM="wheel"' -o $@ $<

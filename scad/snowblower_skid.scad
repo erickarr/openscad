@@ -130,7 +130,7 @@ module bushing() {
     };
 };
 
-if (ASM == "all") {
+module skid() {
     diff () {
         vnf_polyhedron(vnf) {
             // Nut and stud
@@ -141,9 +141,8 @@ if (ASM == "all") {
             tag("remove") move([-ss_half,0*INCH,-0.01]) position(BOTTOM) create_nut_track(sd,sl,sh,BOTTOM);
             
             // Wheel and standoff
-            // TODO use children(), and put these codes into a module
             // d1=13, d2=11.5 for standoff to land on the inner race of a 608RS bearing
-            fwd(wo) position(TOP) cylinder(h=2,d1=24,d2=22);// position(TOP) wheel();
+            fwd(wo) position(TOP) cylinder(h=2,d1=24,d2=22) children();
             
             // Wheel stud
             tag("remove") move([0,-wo,3]) screw("1/4-20,2",head="hex",head_undersize=-0.4,shaft_undersize=-0.3,thread_len=10,anchor=TOP,orient=DOWN);
@@ -151,6 +150,15 @@ if (ASM == "all") {
             tag("remove") move([0,-wo,-0.01]) cyl(h=3.5,d=15,anchor=BOTTOM);
         };
     };
+};
+
+if (ASM == "all") {
+    skid()
+        position(TOP) wheel();
+};
+
+if (ASM == "skid") {
+    skid();
 };
 
 if (ASM == "wheel") {
